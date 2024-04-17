@@ -1,7 +1,23 @@
 const stripe = require("../utils/initStripe");
 const fs = require("fs").promises;
+const path = require("path");
 
 const apiBaseUrl = process.env.REACT_APP_API_URL;
+
+let ordersDB = [];
+
+const initializeOrders = async () => {
+  try {
+    const ordersData = await fs.readFile(path.join(__dirname, '..', 'data', 'orders.json'), 'utf8');
+    ordersDB = JSON.parse(ordersData);
+  } catch (error) {
+    console.error("Failed to initialize orders:", error);
+    // If there's an error (e.g., the file doesn't exist), start with an empty array
+    ordersDB = [];
+  }
+};
+
+initializeOrders();
 
 const getProducts = async (req, res) => {
   try {
@@ -88,10 +104,17 @@ const verifySession = async (req, res) => {
         })),
         total: session.amount_total / 100, 
       }
-      const ordersData = await fs.readFile("./data/orders.json");
-      const orders = JSON.parse(ordersData);
-      orders.push(order);
-      await fs.writeFile("./data/orders.json", JSON.stringify(orders, null, 2));
+      // const ordersData = await fs.readFile("./data/orders.json");
+      // const orders = JSON.parse(ordersData);
+      // orders.push(order);
+      // await fs.writeFile("./data/orders.json", JSON.stringify(orders, null, 2));
+
+      ordersDB.push(order);
+
+      // "Write" the updated orders list to the JSON file for demonstration purposes (will not persist on Vercel)
+      await fs.writeFile(path.join(__dirname, '..', 'data', 'orders.json'), JSON.stringify(ordersDB, null, 2));
+  
+      res.status(200).json({ verified: true, order: order });
 
       res.status(200).json({ verified: true });
     } else {
