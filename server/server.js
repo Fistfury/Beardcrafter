@@ -9,6 +9,8 @@ const ordersRoutes = require("./routes/ordersRoutes");
 const postnordRoutes = require("./routes/postnordRoutes")
 const validateRoutes = require("./routes/validateRoutes")
 
+console.log("Current directory:", __dirname);
+
 const app = express();
 app.use(cors({
   origin: "https://beardcrafter.netlify.app", 
