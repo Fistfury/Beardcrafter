@@ -39,5 +39,7 @@ app.use("/api/orders", ordersRoutes);
 app.use("/api/postnord", postnordRoutes);
 app.use("/api/validate", validateRoutes);
 
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => console.log(`server is running on ${PORT}`));
+module.exports = app
+
+// const PORT = process.env.PORT || 3001;
+// app.listen(PORT, () => console.log(`server is running on ${PORT}`));
