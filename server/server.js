@@ -11,11 +11,14 @@ const validateRoutes = require("./routes/validateRoutes")
 
 const app = express();
 app.use(cors({
-  origin: "https://beardcrafter.netlify.app",
+  origin: "https://beardcrafter.netlify.app", 
   credentials: true,
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+
+app.options('*', cors());
 
 app.use(express.json());
 app.use(cookieSession({
