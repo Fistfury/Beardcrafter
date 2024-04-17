@@ -20,13 +20,15 @@ app.use(cors({
 }));
 
 
-app.options('*', cors());
+
 
 app.use(express.json());
 app.use(cookieSession({
   name: 'session',
   keys: [process.env.SESSION_KEY],
-  maxAge: 24 * 60 * 60 * 1000
+  maxAge: 24 * 60 * 60 * 1000,
+  sameSite: 'none',
+  secure: true
 }));
 // app.get("/home", (req, res) => {
 //   res.send("Server is running");
@@ -38,6 +40,10 @@ app.use("/api/stripe", stripeRoutes);
 app.use("/api/orders", ordersRoutes);
 app.use("/api/postnord", postnordRoutes);
 app.use("/api/validate", validateRoutes);
+
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).json({ message: err.message });
+});
 
 module.exports = app
 

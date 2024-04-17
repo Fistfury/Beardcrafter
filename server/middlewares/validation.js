@@ -24,7 +24,9 @@ const loginSchema = Joi.object({
 const validateRegistration = (req, res, next) => {
   const { error } = registrationSchema.validate(req.body);
   if (error) {
-    return res.status(400).json(error);
+    const err = new Error(error.details[0].message);
+    err.status = 400;
+    return next(err);
   }
   next();
 };
@@ -32,9 +34,11 @@ const validateRegistration = (req, res, next) => {
 const validateLogin = (req, res, next) => {
   const { error } = loginSchema.validate(req.body);
   if (error) {
-    return res.status(400).json(error)
+    const err = new Error(error.details[0].message);
+    err.status = 400;
+    return next(err);
   }
-  next()
+  next();
 };
 
 module.exports = { validateRegistration, validateLogin }

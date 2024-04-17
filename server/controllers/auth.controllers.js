@@ -33,7 +33,7 @@ const register = async (req, res) => {
     };
     users.push(newUser);
     await saveUsers(users);
-    // req.session.userId = newUser.id; 
+    req.session.userId = newUser.id; 
    
    
   
@@ -59,7 +59,7 @@ const login = async (req, res) => {
   if (!passwordIsValid) {
     return res.status(401).json({ error: "Wrong password." });
   }
-  // req.session.userId = user.id;
+  req.session.userId = user.id;
   res.json({
     message: "Logged in successfully",
     stripeId: user.stripeId,
