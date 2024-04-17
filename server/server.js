@@ -10,17 +10,18 @@ const postnordRoutes = require("./routes/postnordRoutes")
 const validateRoutes = require("./routes/validateRoutes")
 
 const app = express();
-app.use(
-  cors({
-    origin: "https://beardcrafter.netlify.app",
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: "https://beardcrafter.netlify.app",
+  credentials: true,
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
 app.use(cookieSession({
   name: 'session',
   keys: [process.env.SESSION_KEY],
-  maxAge: 24 * 60 * 60 * 1000 // 24 timmar
+  maxAge: 24 * 60 * 60 * 1000
 }));
 app.get("/", (req, res) => {
   res.send("Server is running");
