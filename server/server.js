@@ -26,9 +26,9 @@ app.use(cookieSession({
   keys: [process.env.SESSION_KEY],
   maxAge: 24 * 60 * 60 * 1000
 }));
-app.get("/home", (req, res) => {
-  res.send("Server is running");
-});
+// app.get("/home", (req, res) => {
+//   res.send("Server is running");
+// });
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
