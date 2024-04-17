@@ -67,7 +67,7 @@ const login = async (req, res) => {
   });
 };
 const logout = (req, res) => {
-  // req.session = null;
+  req.session = null;
   res.json({ message: "Logged out successfully" });
 };
 module.exports = { register, login, logout };
